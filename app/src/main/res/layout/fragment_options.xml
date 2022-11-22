@@ -5,7 +5,7 @@
                                                    android:id="@+id/constraintLayout"
                                                    android:layout_width="match_parent"
                                                    android:layout_height="match_parent"
-                                                   tools:context=".ui.main.HomeFragment">
+                                                   tools:context=".ui.main.OptionsFragment">
 
     <TextView
             android:id="@+id/section_label"
@@ -24,16 +24,10 @@
             android:layout_height="729dp" tools:layout_editor_absoluteY="1dp" tools:layout_editor_absoluteX="1dp">
         <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
                       android:orientation="vertical">
-            <TextView
-                    android:text="@string/total_amount"
-                    android:layout_width="match_parent"
-                    android:id="@+id/textView_total_amount"
-                    android:gravity="center" android:textSize="@dimen/standard_textSize"
-                    android:textColor="@color/money_growth" android:layout_height="@dimen/standard_TextBox_height"/>
             <Button
-                    android:text="add money - be happy"
+                    android:text="Options"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content" android:id="@+id/test_button_money_maker"/>
+                    android:layout_height="wrap_content" android:id="@+id/button2"/>
         </LinearLayout>
     </ScrollView>
 

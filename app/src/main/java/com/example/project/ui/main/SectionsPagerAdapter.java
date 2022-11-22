@@ -32,6 +32,8 @@ public class SectionsPagerAdapter extends FragmentPagerAdapter {
                 return HomeFragment.newInstance(position + 1);
             case (1):
                 return OverviewFragment.newInstance(position + 1);
+            case (2):
+                return  OptionsFragment.newInstance(position + 1);
         }
 
         return HomeFragment.newInstance(position + 1);

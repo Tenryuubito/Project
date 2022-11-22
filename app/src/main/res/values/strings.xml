@@ -1,6 +1,7 @@
 <resources>
-    <string name="app_name">App-Name{undefined}</string>
-    <string name="tab_text_1">Tab_1</string>
-    <string name="tab_text_2">Tab_2</string>
-    <string name="tab_text_3">Tab_3</string>
+    <string name="app_name">Financial Planner</string>
+    <string name="tab_text_1">Home</string>
+    <string name="tab_text_2">Overview</string>
+    <string name="tab_text_3">Options</string>
+    <string name="total_amount" translatable="false">0.00 €</string>
 </resources>
