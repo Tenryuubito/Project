@@ -15,6 +15,8 @@ import com.example.project.DataAdapter;
 import com.example.project.R;
 import com.example.project.databinding.FragmentHomeBinding;
 
+import java.text.DecimalFormat;
+import java.util.Locale;
 import java.util.Objects;
 
 /**
@@ -29,7 +31,6 @@ public class HomeFragment extends Fragment {
 
     private TextView totalAmount;
     private Button testMoneyMaker;
-
 
     public static HomeFragment newInstance(int index) {
         HomeFragment fragment = new HomeFragment();
@@ -58,12 +59,11 @@ public class HomeFragment extends Fragment {
         totalAmount = binding.getRoot().findViewById(R.id.textView_total_amount);
         testMoneyMaker = binding.getRoot().findViewById(R.id.test_button_money_maker);
 
-        totalAmount.setText(DataAdapter.read(requireContext(), totalAmount.getId()));
+        totalAmount.setText(homeViewModel.readTotalAmount(totalAmount.getId()));
 
         testMoneyMaker.setOnClickListener(view -> {
-            String amount = totalAmount.getText().toString().split(" ")[0];
-            double newAmount = Float.parseFloat(amount) * 100.1 + 1;
-            totalAmount.setText(String.format("%.2f", newAmount) + " €");
+            double amount = Double.parseDouble(totalAmount.getText().toString().split(" ")[0]) * 1.1 + 1;
+            totalAmount.setText(String.format("%.2f €", amount).replace(",", "."));
         });
     }
 
@@ -73,6 +73,13 @@ public class HomeFragment extends Fragment {
             Bundle savedInstanceState) {
 
         binding = FragmentHomeBinding.inflate(inflater, container, false);
+
+        if (DataAdapter.readSingle(-1).equals(""))
+        {
+            DataAdapter.writeSingle("0.00 €", R.id.textView_total_amount);
+            DataAdapter.writeSingle("pass", -1);
+        }
+
         initTab();
 
         return binding.getRoot();
@@ -82,7 +89,7 @@ public class HomeFragment extends Fragment {
     public void onDestroyView() {
         super.onDestroyView();
 
-        DataAdapter.write(requireContext(), totalAmount.getText().toString(), totalAmount.getId());
+        homeViewModel.writeTotalAmount(totalAmount.getId(), totalAmount.getText().toString());
 
         binding = null;
     }

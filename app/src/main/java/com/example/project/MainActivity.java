@@ -1,6 +1,8 @@
 package com.example.project;
 
+import android.Manifest;
 import android.os.Bundle;
+import com.example.project.ui.main.HomeViewModel;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.tabs.TabLayout;
@@ -28,6 +30,8 @@ public class MainActivity extends AppCompatActivity {
         viewPager.setAdapter(sectionsPagerAdapter);
         TabLayout tabs = binding.tabs;
         tabs.setupWithViewPager(viewPager);
+
+        DataAdapter.setFileDir(getExternalFilesDir(Manifest.permission.WRITE_EXTERNAL_STORAGE));
 
     }
 

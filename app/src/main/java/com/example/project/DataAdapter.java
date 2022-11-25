@@ -2,50 +2,89 @@ package com.example.project;
 
 import android.content.Context;
 import android.util.Log;
+import android.widget.Toast;
 
 import java.io.*;
+import java.util.ArrayList;
 
 public class DataAdapter {
 
-    public static String read(Context context, int _ID) {
+    private static File fileDirPath;
+    public static String stringSplitter = "§/%&#";
 
-        String ret = "0.00 €";
+    public static void setFileDir(File fileDir)
+    {
+        fileDirPath = fileDir;
+    }
+    public static String readSingle(int _ID) {
+
+        BufferedReader bufferedReader = null;
+        String ret = "";
 
         try {
-            InputStream inputStream = context.openFileInput(String.valueOf(_ID));
-
-            if ( inputStream != null ) {
-                InputStreamReader inputStreamReader = new InputStreamReader(inputStream);
-                BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
-                String receiveString = "";
-                StringBuilder stringBuilder = new StringBuilder();
-
-                while ( (receiveString = bufferedReader.readLine()) != null ) {
-                    stringBuilder.append(receiveString);
-                }
-
-                inputStream.close();
-                ret = stringBuilder.toString();
-            }
-        }
-        catch (FileNotFoundException e) {
-            Log.e("login activity", "File not found: " + e.toString());
+            String inputLine;
+            bufferedReader = new BufferedReader(new FileReader(fileDirPath.getPath() + String.valueOf(_ID)));
+            ret = bufferedReader.readLine();
         } catch (IOException e) {
-            Log.e("login activity", "Can not read file: " + e.toString());
+            e.printStackTrace();
+        } finally {
+            try {
+                if (bufferedReader != null) {
+                    bufferedReader.close();
+                }
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
         }
 
         return ret;
     }
 
-    public static void write(Context context, String data, int _ID) {
+    public static ArrayList<String> read(int _ID) {
+
+        BufferedReader bufferedReader = null;
+        ArrayList<String> listReturn = new ArrayList<>();
+
         try {
-            OutputStreamWriter outputStreamWriter = new OutputStreamWriter(context.openFileOutput(String.valueOf(_ID), Context.MODE_PRIVATE));
-            outputStreamWriter.write(data);
-            outputStreamWriter.close();
-        }
-        catch (IOException e) {
-            Log.e("Exception", "File write failed: " + e.toString());
+            String inputLine;
+            bufferedReader = new BufferedReader(new FileReader(String.valueOf(_ID)));
+            while ((inputLine = bufferedReader.readLine()) != null) {
+                listReturn.add(inputLine);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (bufferedReader != null) {
+                    bufferedReader.close();
+                }
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
         }
 
+        return listReturn;
+    }
+
+    public static void writeSingle(String data, int _ID) {
+
+        try(BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(fileDirPath.getPath() + String.valueOf(_ID)))) {
+            bufferedWriter.write(data);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public static void write(String data, int _ID) {
+
+        String[] list = data.split(DataAdapter.stringSplitter);
+
+        try(BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(fileDirPath.getPath() + String.valueOf(_ID)))) {
+            for(String line : list) {
+                bufferedWriter.write(line);
+            }
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 }

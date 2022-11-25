@@ -1,7 +1,9 @@
 package com.example.project.ui.main;
 
+import android.provider.ContactsContract;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
+import com.example.project.DataAdapter;
 
 public class HomeViewModel extends ViewModel {
 
@@ -11,5 +13,15 @@ public class HomeViewModel extends ViewModel {
         mIndex.setValue(index);
     }
 
+    public String readTotalAmount(int _ID)
+    {
+        return DataAdapter.readSingle(_ID);
+    }
+
+    public void writeTotalAmount(int _ID, String data)
+    {
+        String amount = data.split(" ")[0];
+        DataAdapter.writeSingle(data, _ID);
+    }
 
 }
